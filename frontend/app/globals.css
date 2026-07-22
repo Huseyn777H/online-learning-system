@@ -8,9 +8,24 @@ body {
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background-color: #f9fafb;
-  color: #111827;
+  background-color: #f8fafc;
+  color: #0f172a;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background-color: #e0e7ff;
+  color: #312e81;
+}
+
+*:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
 }
 
 .line-clamp-3 {

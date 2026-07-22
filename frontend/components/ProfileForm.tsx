@@ -63,12 +63,12 @@ export default function ProfileForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-md space-y-4 rounded-lg border border-gray-200 bg-white p-6"
+      className="max-w-md space-y-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-soft"
     >
       <ErrorMessage ref={errorRef} message={error} />
       <SuccessMessage message={success} />
       <div>
-        <label htmlFor="profile-fullname" className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="profile-fullname" className="mb-1.5 block text-sm font-medium text-ink">
           Full name
         </label>
         <input
@@ -76,11 +76,11 @@ export default function ProfileForm() {
           type="text"
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"
+          className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
         />
       </div>
       <div>
-        <label htmlFor="profile-email" className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="profile-email" className="mb-1.5 block text-sm font-medium text-ink">
           Email
         </label>
         <input
@@ -88,25 +88,13 @@ export default function ProfileForm() {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"
-        />
-      </div>
-      <div>
-        <label htmlFor="profile-role" className="mb-1 block text-sm font-medium text-gray-700">
-          Role
-        </label>
-        <input
-          id="profile-role"
-          type="text"
-          value={user.role}
-          disabled
-          className="w-full rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-sm capitalize text-gray-500"
+          className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
         />
       </div>
       <button
         type="submit"
         disabled={saving}
-        className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-dark disabled:opacity-60"
+        className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white shadow-soft transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-60"
       >
         {saving ? "Saving..." : "Save changes"}
       </button>

@@ -17,7 +17,9 @@ import type {
   User,
 } from "./types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001";
+// Browser requests remain same-origin and are proxied server-side. That keeps
+// the backend address out of the client bundle and removes CORS coupling.
+const API_URL = "";
 
 export class ApiError extends Error {
   status: number;

@@ -71,6 +71,24 @@ ADMIN_EMAIL=admin@example.com ADMIN_PASSWORD="S3curePass!" ADMIN_FULL_NAME="Site
   python -m scripts.create_admin
 ```
 
+## Demo catalog data
+
+`scripts/seed_demo_data.py` populates the catalog with 5 categories and 10 published courses
+(with modules, lessons, and two quizzes) so the app has real content to show instead of an
+empty catalog. It runs automatically on every container start (see the `CMD` in `Dockerfile`
+and the `command` in `docker-compose.yml`) and is idempotent — it no-ops as soon as any
+category already exists, so it never duplicates data on restart/redeploy.
+
+It also creates a demo instructor account (`instructor@demo.ols` / `DemoTeach123!`) as the
+owner of the seeded courses, useful for logging in as a teacher to see the Course Builder /
+Assignments / Quiz flows without registering a fresh account.
+
+Run it manually if needed:
+
+```bash
+docker compose exec backend python -m scripts.seed_demo_data
+```
+
 ## Uploading files
 
 `POST /api/uploads` (auth required, multipart `file` field, optional `?folder=` query param, defaults to
@@ -109,5 +127,6 @@ app/
   services/          # progress calc, certificate PDF generation, cache helpers
 alembic/             # migrations
 scripts/
-  create_admin.py     # one-off bootstrap script for the first admin user
+  create_admin.py       # one-off bootstrap script for the first admin user
+  seed_demo_data.py     # idempotent demo catalog seed (categories/courses/modules/lessons/quizzes)
 ```

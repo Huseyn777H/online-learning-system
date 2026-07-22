@@ -2,31 +2,31 @@
 
 import { useEffect, useState } from "react";
 import { useRequireAuth } from "@/lib/useRequireAuth";
-import { enrollmentsApi } from "@/lib/api";
-import type { Enrollment } from "@/lib/types";
+import { coursesApi } from "@/lib/api";
+import type { Course } from "@/lib/types";
 import Spinner from "@/components/Spinner";
 import ProfileForm from "@/components/ProfileForm";
 import ProfileHeader from "@/components/ProfileHeader";
 import StatCard from "@/components/StatCard";
 
-export default function StudentProfilePage() {
-  const { user, loading } = useRequireAuth(["student"]);
-  const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
+export default function TeacherProfilePage() {
+  const { user, loading } = useRequireAuth(["teacher"]);
+  const [courses, setCourses] = useState<Course[]>([]);
   const [statsLoading, setStatsLoading] = useState(true);
 
   useEffect(() => {
     if (!user) return;
-    enrollmentsApi
-      .mine()
-      .then(setEnrollments)
-      .catch(() => setEnrollments([]))
+    coursesApi
+      .list({ teacherId: user.id, page: 1, pageSize: 100 })
+      .then((res) => setCourses(res.items))
+      .catch(() => setCourses([]))
       .finally(() => setStatsLoading(false));
   }, [user]);
 
   if (loading || !user) return <Spinner />;
 
-  const completed = enrollments.filter((e) => e.progress >= 100).length;
-  const inProgress = enrollments.length - completed;
+  const published = courses.filter((c) => c.status === "published").length;
+  const drafts = courses.filter((c) => c.status === "draft").length;
 
   return (
     <div className="animate-fade-in">
@@ -34,9 +34,9 @@ export default function StudentProfilePage() {
 
       {!statsLoading && (
         <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <StatCard label="Enrolled Courses" value={enrollments.length} />
-          <StatCard label="In Progress" value={inProgress} />
-          <StatCard label="Completed" value={completed} />
+          <StatCard label="Courses Created" value={courses.length} />
+          <StatCard label="Published" value={published} />
+          <StatCard label="Drafts" value={drafts} />
         </div>
       )}
 

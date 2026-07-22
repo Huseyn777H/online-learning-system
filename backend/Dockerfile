@@ -14,8 +14,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN mkdir -p /app/media
+RUN useradd --create-home --shell /usr/sbin/nologin appuser \
+    && mkdir -p /app/media \
+    && chown -R appuser:appuser /app
+
+USER appuser
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000} --reload"]
+CMD ["sh", "-c", "alembic upgrade head && python -m scripts.seed_demo_data && uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

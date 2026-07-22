@@ -35,7 +35,7 @@ export default function CourseFilterBar({
   return (
     <form
       onSubmit={submit}
-      className="mb-6 flex flex-wrap items-end gap-3 rounded-lg border border-gray-200 bg-white p-4"
+      className="mb-6 flex flex-wrap items-end gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-soft"
     >
       <div className="flex-1 min-w-[200px]">
         <label htmlFor="filter-keyword" className="mb-1 block text-xs font-medium text-gray-600">
@@ -47,7 +47,7 @@ export default function CourseFilterBar({
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="Search courses..."
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"
+          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
         />
       </div>
       <div className="min-w-[160px]">
@@ -58,7 +58,7 @@ export default function CourseFilterBar({
           id="filter-category"
           value={filters.category}
           onChange={(e) => onChange({ ...filters, category: e.target.value })}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"
+          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
         >
           <option value="">All categories</option>
           {categories.map((c) => (
@@ -76,7 +76,7 @@ export default function CourseFilterBar({
           id="filter-level"
           value={filters.level}
           onChange={(e) => onChange({ ...filters, level: e.target.value })}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"
+          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
         >
           <option value="">All levels</option>
           <option value="beginner">Beginner</option>
@@ -86,7 +86,7 @@ export default function CourseFilterBar({
       </div>
       <button
         type="submit"
-        className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-dark"
+        className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-soft transition hover:bg-primary-dark"
       >
         Search
       </button>

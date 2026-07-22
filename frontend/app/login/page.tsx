@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useAuth } from "@/lib/AuthContext";
 import { ApiError } from "@/lib/api";
 import ErrorMessage from "@/components/ErrorMessage";
+import AuthShell from "@/components/AuthShell";
+import PasswordInput from "@/components/PasswordInput";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -47,50 +49,68 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="mx-auto max-w-md">
-      <h1 className="mb-6 text-2xl font-bold text-gray-900">Log in</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-gray-200 bg-white p-6">
+    <AuthShell title="Welcome back" subtitle="Log in to continue your learning journey.">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <ErrorMessage ref={errorRef} message={error} />
         <div>
-          <label htmlFor="login-email" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="login-email" className="mb-1.5 block text-sm font-medium text-ink">
             Email
           </label>
-          <input
-            id="login-email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"
-            required
-          />
+          <div className="relative">
+            <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+              <MailIcon />
+            </span>
+            <input
+              id="login-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+              placeholder="you@example.com"
+              className="w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-3 text-sm transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
+              required
+            />
+          </div>
         </div>
         <div>
-          <label htmlFor="login-password" className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="login-password" className="mb-1.5 block text-sm font-medium text-ink">
             Password
           </label>
-          <input
-            id="login-password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"
-            required
-          />
+          <PasswordInput id="login-password" value={password} onChange={setPassword} autoComplete="current-password" />
         </div>
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-md bg-primary px-4 py-2 font-medium text-white hover:bg-primary-dark disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 font-medium text-white shadow-soft transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-60"
         >
+          {submitting && <Spinner />}
           {submitting ? "Logging in..." : "Log in"}
         </button>
-        <p className="text-center text-sm text-gray-500">
+        <p className="text-center text-sm text-ink-soft">
           Don&apos;t have an account?{" "}
           <Link href="/register" className="font-medium text-primary hover:underline">
-            Register
+            Create one
           </Link>
         </p>
       </form>
-    </div>
+    </AuthShell>
+  );
+}
+
+function MailIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
+      <path d="M3 4a2 2 0 00-2 2v.01L10 12l9-5.99V6a2 2 0 00-2-2H3z" />
+      <path d="M18 8.118l-8 5.334-8-5.334V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+    </svg>
+  );
+}
+
+function Spinner() {
+  return (
+    <svg className="h-4 w-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+    </svg>
   );
 }

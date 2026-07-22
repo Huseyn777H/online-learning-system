@@ -47,7 +47,7 @@ services:
       redis:
         condition: service_healthy
     command: >
-      sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+      sh -c "alembic upgrade head && python -m scripts.seed_demo_data && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
 
   frontend:
     build:
@@ -56,7 +56,7 @@ services:
     env_file:
       - ./frontend/.env.local
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8001
+      BACKEND_API_URL: http://backend:8000
     ports:
       - "3000:3000"
     volumes:
